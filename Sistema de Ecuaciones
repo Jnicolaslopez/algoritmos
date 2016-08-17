@@ -1,0 +1,38 @@
+// Sistema de Ecuaciones.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+
+void main()
+{
+	float a,b,c,d,e,f,x1,x2;
+
+	cout<<"Ingrese los valores de los coeficientes a,b,c,d,e,y f en orden:"<<endl;
+	cin>>a;
+	cin>>b;
+	cin>>c;
+	cin>>d;
+	cin>>e;
+	cin>>f;
+
+	if (b*d==a*e)
+	{
+		cout<<"El sistema no tiene solucion"<<endl;
+	}
+
+	else
+	{
+		x1=(b*f-e*c)/(b*d-e*a);
+		x2=(c*d-a*f)/(b*d-e*a);
+	}
+
+	cout<<"El valor de X es:"<<x1<<endl;
+	cout<<"El valor de Y es:"<<x2<<endl;
+
+	getch();
+}
