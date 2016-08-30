@@ -1,0 +1,55 @@
+// Func. promedio de valores de un vector.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+
+using namespace std;
+
+void cargarvec(int vec[],int tam);
+float promedio(int vec[],int tam);
+
+void main()
+{
+	int vec[10];
+	int tam;
+	float prom;
+
+	cout<<"Ingrese el tamano del vector:"<<endl;
+	cin>>tam;
+	cargarvec(vec,tam);
+	prom=promedio(vec,tam);
+	cout<<"El promedio aritmetico de los valores del vector es:"<<prom<<endl;
+
+	getch();
+}
+
+void cargarvec(int vec[],int tam)
+{
+	int i;
+
+	for(i=0;i<tam;i++)
+	{
+		cout<<"Ingrese valor para la posicion "<<i<<endl;
+		cin>>vec[i];
+	}
+}
+
+float promedio(int vec[],int tam)
+{
+	int i;
+	int suma;
+	float prom;
+
+	suma=0;
+
+	for(i=0;i<tam;i++)
+	{
+		suma=suma+vec[i];
+	}
+
+	prom=suma/tam;
+
+	return prom;
+}
