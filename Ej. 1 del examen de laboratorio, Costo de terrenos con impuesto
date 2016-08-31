@@ -1,0 +1,31 @@
+// Costo de terrenos.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+
+using namespace std;
+
+void main()
+{
+	float precio,imp,preciofinal;
+
+	do
+	{
+	cout<<"Ingrese el precio del terreno:"<<endl;
+	cin>>precio;
+
+	imp=precio*0.03;
+
+	cout<<"El impuesto es de:"<<imp<<endl;
+
+	preciofinal=precio+imp;
+
+	cout<<"El precio final del terreno es de:"<<preciofinal<<endl;
+	}
+	while (precio!=0);
+
+	getch();
+}
+
