@@ -1,0 +1,65 @@
+// Menu para el Calculo de Areas.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+
+using namespace std;
+
+void main()
+{
+	int opc;
+	float base,altura,radio,pi=3.1416,lado,area;
+
+	cout<<"***MENU***"<<endl;
+	cout<<"1. Area del triangulo."<<endl;
+	cout<<"2. Area del circulo."<<endl;
+	cout<<"3. Area del cuadrado."<<endl;
+	cout<<"0. Salir."<<endl;
+
+	cout<<"Ingrese la opcion que desea realizar:"<<endl;
+	cin>>opc;
+
+	switch(opc)
+	{
+		case 1:
+		cout<<"Ingrese la base del triangulo:"<<endl;
+		cin>>base;
+		cout<<"Ingrese la altura del triangulo:"<<endl;
+		cin>>altura;
+
+		area=(base*altura)/2;
+
+		cout<<"El area del triangulo es:"<<area<<endl;
+		break;
+
+		case 2:
+		cout<<"Ingrese el radio del circulo:"<<endl;
+		cin>>radio;
+
+		area=pi*pow(radio,2);
+
+		cout<<"El area del circulo es:"<<area<<endl;
+		break;
+
+		case 3:
+		cout<<"Ingrese el largo del lado del cuadrado:"<<endl;
+		cin>>lado;
+
+		area=pow(lado,2);
+
+		cout<<"El area del cuadrado es:"<<area<<endl;
+		break;
+
+		case 0:
+		cout<<"Gracias, Hasta Luego."<<endl;
+		break;
+	
+		default:
+		cout<<"Opcion ingresada no valida."<<endl;
+	}
+
+	getch();
+}
