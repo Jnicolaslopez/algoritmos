@@ -1,0 +1,127 @@
+#include <iostream>
+#include <conio.h>
+#include "stdafx.h"
+using namespace std;
+#define N 10
+struct Matriz
+{
+	int matriz[N][N];
+	int n;
+	int m;
+};
+struct Aux
+{
+	int Nota;
+	int Frec;
+}; 
+void Cargar(Matriz vector[N], int tam)
+{
+	for (int i = 0; i < tam; i++)
+	{
+		cout << "Ingresa la Fila de la Matriz: ";
+		cin >> vector[i].n;
+		cout << "Ingresa la Columna de la Matriz: "; 
+		cin >> vector[i].m; 
+		for (int j = 0; j < vector[i].n; j++)
+		{
+			for (int k = 0; k < vector[i].m; k++)
+			{
+				cin>>vector[i].matriz[j][k];
+			}
+		}
+	}
+} 
+bool Verificar_Numero(int mat[N][N], int fil, int col)
+{
+	for (int i=0;i<fil;i++)
+	{
+		for (int j=0;j<col;j++)
+		{
+			if (mat[i][j]==mat[fil][col])
+			{
+				return true;
+			}
+		}
+	} 
+	return false; 
+} 
+int Frecuencia(Matriz var, int num)
+{
+	int s = 0;
+	for (int i=0;i<var.n;i++)
+	{
+		for (int j=0;j<var.m;j++)
+		{
+			if (var.matriz[i][j]==num)
+			{
+				s++;
+			}
+		}
+	}
+	return s;
+}
+void Mostrar_Moda(Aux vect[N], int tam)
+{
+	int f = 0;
+	int not= 0;
+	for (int i = 0; i < tam; i++)
+	{
+		if (vect[i].Frec>f)
+		{
+			f = vect[i].Frec; 
+			not= vect[i].Nota;
+		}
+	}
+	cout << "La Nota es: " << not<< endl;
+	cout<<" Con una Frecuencia de: "<<f;
+	cout << endl;
+}
+void Moda(Matriz vector[N], int tam)
+{
+	Aux vect[N];
+	int pos = 0;
+	for (int i=0;i<tam;i++)
+	{
+		for (int j=0;j<vector[i].n;j++)
+		{
+			for (int k=0;k<vector[i].m;k++)
+			{
+				if (Verificar_Numero(vector[i].matriz,j,k)==false)
+				{
+					vect[pos].Frec=Frecuencia(vector[i], vector[i].matriz[j][k]);
+					vect[pos].Nota = vector[i].matriz[j][k];
+					pos++;
+				}
+			}
+		}
+		Mostrar_Moda(vect, pos);
+		pos = 0;
+	}
+} 
+void Mostrar(Matriz vector[N], int tam)
+{
+	for (int i = 0; i < tam; i++)
+	{
+		for (int j = 0; j < vector[i].n; j++)
+		{
+			for (int k = 0; k < vector[i].m; k++)
+			{ 
+				cout<< vector[i].matriz[j][k];
+			}
+			cout << endl;
+		}
+		cout << "   ";
+	}
+} 
+int main()
+{
+	Matriz vector[N];
+	int tam;
+	cout << "Ingresar el tamnho del vector: ";
+	cin >> tam;
+	Cargar(vector, tam);
+	Moda(vector, tam);
+	//Mostrar(vector, tam); 
+	_getch();
+	return 0;
+}
