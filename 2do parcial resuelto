@@ -1,0 +1,149 @@
+1)	Paises, dimensiones e indicadores
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+
+#define max 10
+
+using namespace std;
+
+struct matriz
+{
+ float vec[max][max];
+};
+
+void cargar (matriz mat[max],int n, int m,int p);
+void mostrar (matriz mat[max],int n, int m,int p);
+
+
+void main ()
+{
+	matriz mat[max];
+	
+	int n,m,p;
+	float promedio;
+	int i,j,k;
+
+	do
+	{cout<<"ingrese el numero de paises";
+	cin>>n;}while (n<=0 || n>max);
+	do
+	{cout<<"ingrese el numero de dimensiones";
+	cin>>m;}while (m<=0 || m>max);
+	do
+	{cout<<"ingrese el numero de indicadores";
+	cin>>p;}while (p<=0 || p>100);
+	cargar(mat,n,m,p);
+	mostrar(mat,n,m,p);
+	
+	float pr,s;
+	for(i=0;i<n;i++)
+	{
+		s=0;
+	for(j=0;j<m;j++)
+	{
+		for(k=0;k<p;k++)
+		{
+			s=s+stef[i].vec[j][k];
+		}
+		pr=s/(m*p);
+		
+	}
+	cout<<"el promedio del pais -"<<i<<"- es = "<<pr<<endl;
+	}
+		
+	
+
+
+getch();
+}
+
+void cargar (matriz mat[max],int n, int m,int p)
+{
+	int i,j,k;
+
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			for(k=0;k<p;k++)
+			{
+				cout<<"pais["<<i<<"].mat["<<j<<"]["<<k<<"]= ";
+				cin>>mat[i].vec[j][k];
+			}
+		}
+	}
+
+}
+void mostrar (matriz mat[max],int n, int m,int p)
+{
+	int i,j,k;
+
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			for(k=0;k<p;k++)
+			{
+				cout<<"pais["<<i<<"].mat["<<j<<"]["<<k<<"]= "<<mat[i].vec[j][k]<<endl;
+				
+			}
+		}
+	}
+}
+
+
+
+
+
+2)	Ordenar nombres por apellido
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string>
+#define N 20
+using namespace std;
+
+void ordenar(string nombres[], string apellidos [], int n)
+{ bool flag;
+string aux;
+  
+    do { 
+		flag= false;
+		for(int i =0; i< n - 1; i++)
+		{
+			if (apellidos[i].compare(apellidos[i+1])<0)
+			{aux = apellidos [i];
+			 apellidos[i] = apellidos[i+1];
+			 apellidos[i+1] = aux;
+             aux = nombres[i];
+			 nombres[i] = nombres[i+1];
+		     nombres[i+1] = aux;
+			 flag = true;
+			}
+		}
+	  }while((flag == true) );
+}
+
+void main()
+{
+	string apellidos[N], nombres [N];
+	int n;
+	cout<<"ingrese el numero de personas:"<<endl;
+	cin>> n;
+
+	for(int i=0; i < n; i++)
+	{ cout<<"ingrese el nombre y apellido de la persona"<< i +1 <<endl;
+	cin>>nombres[i]>>apellidos [i];
+	}
+
+	ordenar(nombres, apellidos, n);
+	for (int i = 0;i < n; i++)
+	{ cout<<apellidos [i]<<' '<<nombres[i]<<endl;
+	}
+getch();
+}
+
