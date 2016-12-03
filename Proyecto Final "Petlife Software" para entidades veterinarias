@@ -1,0 +1,1096 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
+using namespace std;
+
+struct Cliente
+{
+	string Nombre;
+	string Apellido;
+	string Direccion_Domicilio;
+	string Num_Telf;
+	int Id_Cliente;
+
+};
+struct Mascota
+{
+	string Nombre_Mascota;
+	int Edad;
+	string Raza;
+	string Descripcion;
+	int Id_Cliente;
+	int Id_Mascota;
+
+};
+struct Servicios
+{
+	string Serv;
+	int Id_Mascota;
+	string Fecha;
+	float Costo;
+
+};
+
+int main()
+{
+	char op;
+	do
+	{
+		cout << "/////////MENU/////////" << endl;
+		cout << "1.-Crear Archivos" << endl;
+		cout << "2.-Reportes" << endl;
+		cout << "3.-Elminar" << endl;
+		cout << "4.-Realizar Servicio" << endl;
+		fflush(stdin);
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			system("cls");
+			Menu_CrearArchivo();
+			break;
+		case '2':
+			Menu_Reportes();
+			break;
+		case '3':
+			
+			break;
+		case '4':
+			system("cls");
+			Realizar_Servicios();
+			break;
+		}
+		system("cls");
+	} while (op != '0');
+	_getch();
+	return 0;
+}
+
+//Funciones para crear Archivos
+void Crear_Archivo_Cliente()
+{
+	FILE *ptr;
+	ptr = fopen("Cliente.dat", "wb");
+	if (ptr != NULL)
+	{
+		cout << "El Archivo ha sido creado Exitosamente.!" << endl;
+	}
+	else
+	{
+		cout << "Error, El Archivo no pudo Crearce" << endl;
+	}
+	fclose(ptr);
+}
+void Crear_Archivo_Mascota()
+{
+	FILE *ptr;
+	ptr = fopen("Mascota.dat", "wb");
+	if (ptr != NULL)
+	{
+		cout << "El Archivo ha sido creado Exitosamente.!" << endl;
+	}
+	else
+	{
+		cout << "Error, El Archivo no pudo Crearce" << endl;
+	}
+	fclose(ptr);
+}
+void Crear_Archivo_Servicio()
+{
+	FILE *ptr;
+	ptr = fopen("Servicio.dat", "wb");
+	if (ptr != NULL)
+	{
+		cout << "El Archivo ha sido creado Exitosamente.!" << endl;
+	}
+	else
+	{
+		cout << "Error, El Archivo no pudo Crearce" << endl;
+	}
+	fclose(ptr);
+}
+//Obtener Informacion
+Mascota Obtener_Mascota(int idm)
+{
+	FILE *ptr;
+	Mascota m;
+	ptr = fopen("Mascota.dat", "rb");
+	fread(&m, sizeof(m), 1, ptr);
+	while (!feof(ptr))
+	{
+		if (m.Id_Mascota==idm)
+		{
+			return m;
+		}
+		fread(&m, sizeof(m), 1, ptr);
+	}
+	if (m.Id_Mascota==0)
+	{
+		cout << "La Mascota no se encuentra registrada" << endl;
+	}
+	fclose(ptr);
+}
+Cliente Obtener_Cliente(int idc)
+{
+	FILE *ptr;
+	Cliente c;
+	ptr = fopen("Cliente.dat", "rb");
+	fread(&c,sizeof(c),1,ptr);
+	while (!feof(ptr))
+	{
+		if (c.Id_Cliente==idc)
+		{
+			return c;
+		}
+		fread(&c, sizeof(c), 1, ptr);
+	}
+	if (c.Id_Cliente==0)
+	{
+		cout << "El Cliente no se encuentra registrado" << endl;
+	}
+	fclose(ptr);
+}
+//Existe Id Cliente
+bool Existe_IdCliente(int x)
+{
+	bool k = false;
+
+
+	return k;
+}
+//Tipos de reportes 
+void Reporte_Detallado()
+{
+	FILE *ptr;
+	Servicios s;
+	Mascota m;
+	Cliente c;
+	ptr = fopen("Servicio.dat", "rb");
+	cout << "                       ///////////Reporte Detallado///////////" << endl;
+	cout << "-----------------------------------------------------------------------------------------------" << endl;
+	cout << "Nombre Apellido  Telefono Nombre Mascota   Raza    Servicio   Costo  Fecha" << endl;
+	cout << "-----------------------------------------------------------------------------------------------" << endl;
+	fread(&s, sizeof(s), 1, ptr);
+	while (!feof(ptr))
+	{
+		m=Obtener_Mascota(s.Id_Mascota);
+		c = Obtener_Cliente(m.Id_Cliente);
+		cout << c.Nombre << "   "<<c.Apellido << "   " <<c.Num_Telf << "   "<<m.Nombre_Mascota << "   " <<m.Raza<<"   " <<s.Serv << "   " << s.Costo << "   " << s.Fecha << endl;
+		fread(&s, sizeof(s), 1, ptr);
+	}
+	fclose(ptr);
+}
+void Reporte_Cliente()
+{
+	FILE *ptr;
+	Cliente c;
+	ptr = fopen("Cliente.dat", "rb");
+	cout << "                       ///////////Reporte Cliente///////////" << endl;
+	cout << "-----------------------------------------------------------------------------------------------" << endl;
+	cout << "Nombre Apellido  Telefono  Domicilio" << endl;
+	cout << "-----------------------------------------------------------------------------------------------" << endl;
+	fread(&c, sizeof(c), 1, ptr);
+	while(!feof(ptr))
+	{
+		cout << c.Nombre << "   " << c.Apellido << "   " << c.Num_Telf << "   " << c.Direccion_Domicilio << endl;
+		fread(&c, sizeof(c), 1, ptr);
+	}
+}
+//Menu Reportes
+void Menu_Reportes()
+{
+	char op;
+	do
+	{
+		cout << "/////////MENU REPORTES/////////" << endl;
+		cout << "1.-Reporte Detallado" << endl;
+		cout << "2.-Reporte de Clientes" << endl;
+		fflush(stdin);
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			system("cls");
+			Reporte_Detallado();
+			break;
+		case '2':
+			system("cls");
+			Reporte_Cliente();
+			break;
+		}
+		system("cls");
+	} while (op != '0');
+
+}
+//Verificaciones
+bool Verificar_Nombre_Cliente(string x)
+{
+	bool k = false;
+	int i = 0;
+	while (i<x.length())
+	{
+
+		if (isalpha(x[i]))
+		{
+			k = true;
+		}
+		else
+		{
+			i = x.length();
+			k = false;
+
+		}
+		i++;
+	}
+	return k;
+}
+bool Verificar_Apellido_Cliente(string x)
+{
+	bool k = false;
+	int i = 0;
+	while (i<x.length())
+	{
+
+		if (isalpha(x[i]))
+		{
+			k = true;
+		}
+		else
+		{
+			i = x.length();
+			k = false;
+
+		}
+		i++;
+	}
+	return k;
+}
+bool Verificar_Numero_Telefono(string x)
+{
+	bool k = false;
+	int i = 0, t = x.length();
+	while (i<t)
+	{
+
+		if (t<7)
+		{
+
+			return k;
+		}
+		else
+		{
+			if (t>8)
+			{
+				return k;
+			}
+			else
+			{
+				if (isdigit(x[i]))
+				{
+					k = true;
+				}
+				else
+				{
+					i = x.length();
+					k = false;
+
+				}
+			}
+		}
+		i++;
+	}
+	return k;
+}
+bool Verificar_Id_Cliente(string x)
+{
+	bool k = false;
+	int i = 0, t = x.length();
+	while (i < t)
+	{
+		if (isdigit(x[i]))
+		{
+			k = true;
+		}
+		else
+		{
+			k = false;
+			i = x.length();
+		}
+		i++;
+	}
+	return k;
+}
+bool Verificar_Direccion_Domicilio(string x)
+{
+
+	bool k = false;
+	int i = 0;
+	while (i<x.length())
+	{
+
+		if (isalpha(x[i]))
+		{
+			k = true;
+		}
+		else
+		{
+			i = x.length();
+			k = false;
+
+		}
+		i++;
+	}
+	return k;
+}
+//Tipo de Eliminaciones
+void Eliminar_Cliente(int x)
+{
+
+}
+//Menu Para Crear Archivos
+void Menu_CrearArchivo()
+{
+	char op;
+	do
+	{
+		cout << "//////////MENU PARA CREAR ARCHIVOS//////////" << endl;
+		cout << "1.-Crear Archivo de Cliente" << endl;
+		cout << "2.- Crear Archivo de Mascotra" << endl;
+		cout << "3.- Crear Archivo de Servicio" << endl;
+		fflush(stdin);
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			system("cls");
+			Crear_Archivo_Cliente();
+			break;
+		case '2':
+			system("cls");
+			Crear_Archivo_Mascota();
+			break;
+		case '3':
+			system("cls");
+			Crear_Archivo_Servicio();
+			break;
+		}
+	} while (op != '0');
+	system("cls");
+}
+//SubMenu de Estetica Banho
+void Menu_Banho(Servicios &x)
+{
+	char op;
+	do
+	{
+		cout << "Que tipo de Banho Desea?" << endl;
+		cout << "Servicios  Costos" << endl;
+		cout << "1.-Normal    50" << endl;
+		cout << "2.-Aromatizante     70" << endl;
+		cout << "3.-Acondicionante    80" << endl;
+		cout << "4.-Desparasitante    70" << endl;
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			x.Costo = 50;
+			x.Serv = "Normal";
+			break;
+		case '2':
+			x.Costo = 70;
+			x.Serv = "Aromatizante";
+			break;
+		case '3':
+			x.Costo = 80;
+			x.Serv = "Acondicionante";
+			break;
+		case '4':
+			x.Costo = 70;
+			x.Serv = "Desparasitante";
+			break;
+		}
+		system("cls");
+	} while (op != '0');
+}
+//SubMenu de Estetica Peluqueria
+void Menu_Corte(Servicios &x)
+{
+	char op;
+	do
+	{
+		cout << "Que tipo de Corte Desea?" << endl;
+		cout << "Servicios  Costos" << endl;
+		cout << "1.-Caniche    70" << endl;
+		cout << "2.-Labrador   50" << endl;
+		cout << "3.-Schnauzer   80" << endl;
+		cout << "4.-Pincher   30" << endl;
+		cout << "5.-Bulldog   80" << endl;
+		cout << "6.-Otros     50" << endl;
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			x.Costo = 70;
+			x.Serv = "Caniche";
+			break;
+		case '2':
+			x.Costo = 50;
+			x.Serv = "Labrador";
+			break;
+		case '3':
+			x.Costo = 80;
+			x.Serv = "Schnauzer";
+			break;
+		case '4':
+			x.Costo = 30;
+			x.Serv = "Pincher";
+			break;
+		case '5':
+			x.Costo = 80;
+			x.Serv = "Bulldog";
+			break;
+		case '6':
+			x.Costo = 50;
+			x.Serv = "Otros";
+			break;
+		}
+		system("cls");
+	} while (op != '0');
+}
+//Menu Estetica
+void Menu_Estetica(Servicios &x)
+{
+	char op;
+	do
+	{
+		cout << "Menu Estetica" << endl;
+		cout << "1.-Tipo de Banho" << endl;
+		cout << "2.-Tipo de Peluqueria" << endl;
+		cout << "3.-Pedicura" << endl;
+		cout << "4.-Higiene Bucal" << endl;
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			Menu_Banho(x);
+			break;
+		case '2':
+			Menu_Corte(x);
+			break;
+		case '3':
+			//////Faltan Costos
+			break;
+		case '4':
+			///////Faltan Costos
+			break;
+		}
+		system("cls");
+	} while (op != '0');
+}
+//Menu Medico
+void Menu_Medico(Servicios &x)
+{
+	char op;
+	do
+	{
+		cout << "Menu Medico" << endl;
+		cout << "Servicios      Costo" << endl;
+		cout << "1.-Analisis de Sangre    60" << endl;
+		cout << "2.-Desparasitacion    50" << endl;
+		cout << "3.-Curacion de heridas    30" << endl;
+		cout << "4.-Fracturas    120" << endl;
+		cout << "5.-Cirugias   350" << endl;
+		cout << "6.-Tratamiento para enfermedades    200" << endl;
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			x.Costo = 60;
+			x.Serv = "Analisis de Sangre";
+			break;
+		case '2':
+			x.Costo = 50;
+			x.Serv = "Desparasitacion";
+			break;
+		case '3':
+			x.Costo = 30;
+			x.Serv = "Curacion de Heridas";
+			break;
+		case '4':
+			x.Costo = 120;
+			x.Serv = "Fracturas";
+			break;
+		case '5':
+			x.Costo = 350;
+			x.Serv = "Cirugias";
+			break;
+		case '6':
+			x.Costo = 200;
+			x.Serv = "Tratamiento para Enfermedades";
+			break;
+		}
+		system("cls");
+	} while (op != '0');
+}
+//Menu Alimento
+void Menu_Alimento()
+{
+	char op;
+	do
+	{
+		cout << "Que Mascota Tiene?" << endl;
+		cout << "1.-Perro" << endl;
+		cout << "2.-Gato" << endl;
+		cout << "3.-Pez" << endl;
+		cout << "4.-Roedor" << endl;
+		cout << "5.-Otros" << endl;
+		cin >> op;
+		switch (op)
+		{
+		case'1':
+			break;
+		case'2':
+			break;
+		case'3':
+			break;
+		case'4':
+			break;
+		case'5':
+			break;
+		}
+	} while (op != '0');
+}
+//Menu de Vacunaciones
+void Menu_Vacunas(Servicios &x)
+{
+	char op;
+	do
+	{
+		cout << "Menu de Vacunaciones" << endl;
+		cout << "Servicios      Costo" << endl;
+		cout << "1.-Desparasitaria    50" << endl;
+		cout << "2.-Antibiotica     25" << endl;
+		cout << "3.-Insulina    80" << endl;
+		cout << "4.-Antirrabica      25" << endl;
+		cout << "5.-Vacuna para recien nacido  50" << endl;
+		cout << "6.-Antialergica    25" << endl;
+		cout << "7.-Anestesiante   70" << endl;
+		cout << "8.-Otros    50" << endl;
+		cin >> op;
+		switch (op)
+		{
+		case '1':
+			x.Costo = 50;
+			x.Serv = "Desparasitaria";
+			break;
+		case '2':
+			x.Costo = 25;
+			x.Serv = "Antibiotica";
+			break;
+		case '3':
+			x.Costo = 80;
+			x.Serv = "Insulina";
+			break;
+		case '4':
+			x.Costo = 25;
+			x.Serv = "Antirrabica";
+			break;
+		case '5':
+			x.Costo = 50;
+			x.Serv = "Recien Nacido";
+			break;
+		case '6':
+			x.Costo = 25;
+			x.Serv = "Antialergica";
+			break;
+		case '7':
+			x.Costo = 70;
+			x.Serv = "Anestesiante";
+			break;
+		case '8':
+			x.Costo = 50;
+			x.Serv = "Otros";
+			break;
+		}
+	} while (op != '0');
+}
+//Menu de Otros Srevicios
+void Menu_Otros_Servicios(Servicios &x)
+{
+	char op;
+	do
+	{
+		cout << "Que otro Servicio requiere" << endl;
+		cout << "Servicios      Costos" << endl;
+		cout << "1.-Parto asistido    150" << endl;
+		cout << "2.-Fisioterapia     70" << endl;
+		cout << "3.-Intervencion de embarazo    80" << endl;
+		cout << "4.-Internacion      100" << endl;
+		cin >> op;
+		switch (op)
+		{
+		case'1':
+			x.Costo = 150;
+			x.Serv = "Parto Asistido";
+			break;
+		case'2':
+			x.Costo = 70;
+			x.Serv = "Fisioterapia";
+			break;
+		case'3':
+			x.Costo = 80;
+			x.Serv = "Intervencion de Embarazo";
+			break;
+		case'4':
+			x.Costo = 100;
+			x.Serv = "Internacion";
+			break;
+		}
+	} while (op != '0');
+}
+//Menu de Servicios
+void Menu_Tipo_De_Atencion(int id_Mascota,string Fecha)
+{
+	FILE *ptr;
+	Servicios v;
+	ptr = fopen("Servicio.dat", "ab");
+	if (ptr != NULL)
+	{
+		char op;
+		do
+		{
+			cout << "Que Tipo de Atencion desea para su Mascota?" << endl;
+			cout << "1.-Medica" << endl;
+			cout << "2.-Estetica" << endl;
+			cout << "3.-De Accesorios" << endl;
+			cout << "4.-Compra de Alimento para su Mascota" << endl;
+			cout << "5.-Farmaceutica" << endl;
+			cout << "6.-Vacunaciones" << endl;
+			cout << "7.-Otros Servicios" << endl;
+			cin >> op;
+			switch (op)
+			{
+			case '1':
+				system("cls");
+				Menu_Medico(v);
+				break;
+			case '2':
+				system("cls");
+				Menu_Estetica(v);
+				break;
+			case '3':
+				cout << "Porfavor pase por mostrador para conocer nuestros accesorios" << endl;
+				break;
+			case '4':
+				system("cls");
+				Menu_Alimento();
+				///Faltan Datos para los Alimentos
+				break;
+			case '5':
+				cout << "Porfavor pase por nuestra Farmacia para este procedimiento " << endl;
+				break;
+			case '6':
+				system("cls");
+				Menu_Vacunas(v);
+				break;
+			case '7':
+				system("cls");
+				Menu_Otros_Servicios(v);
+				break;
+			}
+			system("cls");
+		} while (op != '0');
+		v.Id_Mascota = id_Mascota;
+		v.Fecha = Fecha;
+		fwrite(&v, sizeof(v), 1, ptr);
+	}
+	else
+	{
+		cout << "No se puede abrir el Archivo.!" << endl;
+	}
+	fclose(ptr);
+}
+//Verificar Fecha
+bool Verificar_Sintaxys_Fecha(string &x)
+{
+	bool k = true;
+	int i = 0, aux = 0;
+	string dia, mes, anho;
+	do
+	{
+		if (isdigit(x[i]))
+		{
+			dia += x[i];
+		}
+		i++;
+	} while (x[i] != '/');
+	aux = stoi(dia, nullptr, 0);
+	if ((aux<10)&&(x[0]!='0'))
+	{
+		return false;
+	}
+	do
+	{
+		if (isdigit(x[i]))
+		{
+			mes += x[i];
+		}
+		i++;
+	} while (x[i] != '/');
+	aux = stoi(mes, nullptr, 0);
+	if ((aux<10)&&(x[3]!='0'))
+	{
+		return false;
+	}
+	return k;
+}
+bool Verificar_Fecha(string x)
+{
+	bool k = false;
+	string dia, mes, anho;
+	int Dia, Mes, Anho;
+	int i = 0, aux = 0;
+	x[x.length()] += '/';
+	do
+	{
+		if (isdigit(x[i]))
+		{
+			dia += x[i];
+		}
+		i++;
+	} while (x[i] != '/');
+
+	do
+	{
+		if (isdigit(x[i]))
+		{
+			mes += x[i];
+		}
+		i++;
+	} while (x[i] != '/');
+
+	do
+	{
+		if (isdigit(x[i]))
+		{
+			anho += x[i];
+		}
+		i++;
+	} while (x[i] != '/');
+	Mes = stoi(mes, nullptr, 0);
+	if (0<Mes<13)
+	{
+		Dia = stoi(dia, nullptr, 0);
+		if ((1 == Mes) || (3 == Mes) || (5 == Mes) || (7 == Mes) || (8 == Mes) || (10 == Mes) || (12 == Mes))
+		{
+			if (0<Dia<32)
+			{
+				k = true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		if (Mes == 2)
+		{
+			if (0<Dia<30)
+			{
+				k = true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		if ((4 == Mes) || (6 == Mes) || (9 == Mes) || (11 == Mes))
+		{
+			if (0<Dia<31)
+			{
+				k = true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		Anho = stoi(anho, nullptr, 0);
+		if (Anho >= 2016)
+		{
+			k = true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+	if (Verificar_Sintaxys_Fecha(x) == false)
+	{
+		return false;
+	}
+	return k;
+}
+//Verificaciones de Mascota
+bool Verificar_Nombre_Mascota(string x)
+{
+	bool k = false;
+	int i = 0;
+	while (i<x.length())
+	{
+
+		if (isalpha(x[i]))
+		{
+			k = true;
+		}
+		else
+		{
+			i = x.length();
+			k = false;
+
+		}
+		i++;
+	}
+	return k;
+}
+bool Verificar_Edad_Mascota(string x)
+{
+	int i = 0, aux;
+	bool k = true;
+	while (i<x.length())
+	{
+		if (!isdigit(x[i]))
+		{
+			return false;
+		}
+		i++;
+	}
+	aux = stoi(x, nullptr, 0);
+	if (aux < 1)
+	{
+		return false;
+	}
+	return k;
+}
+bool Verificar_Raza_Mascota(string x)
+{
+	bool k = false;
+	int i = 0;
+	while (i<x.length())
+	{
+
+		if (isalpha(x[i]))
+		{
+			k = true;
+		}
+		else
+		{
+			i = x.length();
+			k = false;
+
+		}
+		i++;
+	}
+	return k;
+}
+bool Verificar_Descripcioon_Mascota(string x)
+{
+	bool k = false;
+	int i = 0;
+	while (i<x.length())
+	{
+
+		if (isalpha(x[i]))
+		{
+			k = true;
+		}
+		else
+		{
+			i = x.length();
+			k = false;
+
+		}
+		i++;
+	}
+	return k;
+}
+bool Verificar_Cant_Mascota(string x)
+{
+	int i = 0, aux;
+	bool k = true;
+	while (i<x.length())
+	{
+		if (!isdigit(x[i]))
+		{
+			return false;
+		}
+		i++;
+	}
+	aux = stoi(x, nullptr, 0);
+	if (aux < 1)
+	{
+		return false;
+	}
+	return k;
+}
+//Funcion Generar ID_MASCOTA
+int Generar_Id_Mascota()
+{
+	FILE *ptr;
+	int IdM = 1;
+	Mascota b;
+	ptr = fopen("Mascota.dat","r+b");
+	fread(&b, sizeof(b), 1, ptr);
+	while (!feof(ptr))
+	{
+		IdM++;
+		fread(&b, sizeof(b), 1, ptr);
+	}
+	fclose(ptr);
+	return IdM;
+}
+//Datos para Mascota
+void Datos_Mascotas(int Cant, int idCliente,string Fecha)
+{
+	FILE *ptr1;
+	string edad;
+	ptr1 = fopen("Mascota.dat", "ab");
+	Mascota b;
+	fflush(stdin);
+	if (Cant > 0)
+	{
+		if (ptr1 != NULL)
+		{
+			for (int i = 0; i < Cant; i++)
+			{
+				cout << "Ingrese el Nombre de la Mascota: " << endl;
+				do
+				{
+					getline(cin, b.Nombre_Mascota);
+				} while (Verificar_Nombre_Mascota(b.Nombre_Mascota) == false);
+				cout << "Ingrese la Edad de la Mascota: " << endl;
+				do
+				{
+					getline(cin, edad);
+				} while (Verificar_Edad_Mascota(edad) == false);
+				b.Edad = stoi(edad, nullptr, 0);
+				cout << "Ingrese la Raza de su Mascota: " << endl;
+				do
+				{
+					getline(cin, b.Raza);
+				} while (Verificar_Nombre_Mascota(b.Raza) == false);
+				cout << "Ingrese alguna Informacion Medica de Relevancia de la Mascota: " << endl;
+				getline(cin, b.Descripcion);
+				b.Id_Mascota = Generar_Id_Mascota();
+				b.Id_Cliente = idCliente;
+				fwrite(&b, sizeof(b), 1, ptr1);
+				Menu_Tipo_De_Atencion(b.Id_Mascota,Fecha);
+			}
+		}
+		else
+		{
+			cout << "El Archivo no pudo abrirse" << endl;
+		}
+	}
+	fclose(ptr1);
+}
+//Funcion Generar ID_CLIENTE
+int Generar_Id()
+{
+	FILE *ptr;
+	int IdC =1;
+	Cliente a;
+	ptr = fopen("Cliente.dat", "rb");
+	fread(&a, sizeof(a), 1, ptr);
+	while (!feof(ptr))
+	{
+		IdC++;
+		fread(&a, sizeof(a), 1, ptr);
+	}
+	fclose(ptr);
+	return IdC;
+}
+//Realizar Servicios y Anhadir un Cliente
+void Realizar_Servicios()
+{
+	FILE*ptr;
+	Cliente a;
+	string fecha;
+	int Cant_Mascotas;
+	char aux;
+	ptr = fopen("Cliente.dat","ab");
+	if (ptr!=NULL)
+	{
+		cout << "Es su primera vez en la Veterinaria? " << endl;
+		cout << "Dijite Y/N " << endl;
+		fflush(stdin);
+		do
+		{
+			cin >> aux;
+		} while (aux != 'Y' && aux != 'N');
+		if (aux=='Y')
+		{
+			cout << "Ingrese su Nombre: " << endl;
+			do
+			{
+				getline(cin,a.Nombre);
+			} while (Verificar_Nombre_Cliente(a.Nombre) == false);
+			cout << "Ingrese su Apellido: " << endl;
+			do
+			{
+				getline(cin,a.Apellido);
+			} while (Verificar_Apellido_Cliente(a.Apellido) == false);
+			cout << "Ingrese su Numero de Telefono: " << endl;
+
+			do
+			{
+				getline(cin,a.Num_Telf);
+			} while (Verificar_Numero_Telefono(a.Num_Telf) == false);
+			cout << "Ingrese la Direccion de su Domicilio: " << endl;
+			getline(cin,a.Direccion_Domicilio);
+			cout << "Ingrese la Cantidad de Mascotas: " << endl;
+			string auxCant;
+			do
+			{
+				getline(cin, auxCant);
+			} while (Verificar_Cant_Mascota(auxCant)==false);
+			 Cant_Mascotas=stoi(auxCant,nullptr,0);
+			 cout << "Ingrese la Fecha dd/mm/aaaa: " << endl;
+			 do
+			 {
+				 getline(cin, fecha);
+			 } while (Verificar_Fecha(fecha) == false);
+			 a.Id_Cliente = Generar_Id();
+			fwrite(&a, sizeof(a), 1, ptr);
+			cout <<endl<< "Este es su Id_Asignado: " << a.Id_Cliente<<endl;
+			Datos_Mascotas(Cant_Mascotas, a.Id_Cliente,fecha);
+		}
+		else
+		{
+			string sid_cliente;
+			int id_cliente;
+			cout << "Ingrese su Id Porfavor:" << endl;
+			do
+			{
+				getline(cin, sid_cliente);
+			} while (Verificar_Id_Cliente(sid_cliente)==false);
+			id_cliente=stoi(sid_cliente,nullptr,0);
+			/*if (Verificar_Existe_Id_Cliente(id_cliente))
+			{
+			  colocar las opciones para que el cliente pueda elegir
+			}*/
+		}
+	}
+	else
+	{
+		cout << "No se pudo abrir el archivo!" << endl;
+	}
+	fclose(ptr);
+}
